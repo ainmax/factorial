@@ -1,7 +1,7 @@
 package io.github.ainmax;
 
 public class Factorial {
-    static String willFactorial(String number) {
+    static String calculate(String number) {
         if(number.equals("0")) {
             return "0";
         } else {
