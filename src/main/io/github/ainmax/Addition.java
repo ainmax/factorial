@@ -1,31 +1,42 @@
 package io.github.ainmax;
 
 public class Addition {
-    static String addition(String number1, String number2) {
-        String char1 = "";
-        String char2 = "";
-        String result = "";
-        Integer resultBetween = 0;
-        Integer balance = 0;
-        for (int i = number1.length(); i > 0; i--) {
-            if(number1.length() - number2.length() < i) {
-                char1 = number1.substring(i - 1, i);
-                char2 = number2.substring(number2.length() - (number1.length() - i) - 1, number2.length() - (number1.length() - i));
-                resultBetween = Integer.parseInt(char1) + Integer.parseInt(char2) + balance;
+    static String calculate(String left, String right) {
+        StringBuilder result = new StringBuilder();
+        int resultBetween = 0;
+        int balance = 0;
+
+        char[] longer;
+        char[] shorter;
+        if (left.length() < right.length()) {
+            longer = right.toCharArray();
+            shorter = left.toCharArray();
+        } else {
+            longer = left.toCharArray();
+            shorter = right.toCharArray();
+        }
+
+        for (int i = longer.length; i > 0; i--) {
+            if (longer.length - shorter.length < i) {
+                char longerDigit = (char) (longer[i - 1] - 0x30);
+                char shorterDigit = (char) (shorter[shorter.length - (longer.length - i) - 1] - 0x30);
+                resultBetween = longerDigit + shorterDigit + balance;
                 balance = (resultBetween - resultBetween % 10) / 10;
                 resultBetween %= 10;
-                result = resultBetween.toString() + result;
+                result.insert(0, resultBetween);
             } else {
-                char1 = number1.substring(i - 1, i);
-                resultBetween = Integer.parseInt(char1) + balance;
+                char longerDigit = (char) (longer[i - 1] - 0x30);
+                resultBetween = longerDigit + balance;
                 balance = (resultBetween - resultBetween % 10) / 10;
                 resultBetween %= 10;
-                result = resultBetween.toString() + result;
+                result.insert(0, resultBetween);
             }
         }
-        if(balance != 0) {
-            result = balance.toString() + result;
+
+        if (balance != 0) {
+            result.insert(0, balance);
         }
-        return result;
+
+        return result.toString();
     }
 }
